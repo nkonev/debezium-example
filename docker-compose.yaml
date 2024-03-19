@@ -30,7 +30,7 @@ services:
     restart: unless-stopped
     container_name: postgres
     hostname: postgres
-    image: quay.io/debezium/example-postgres:2.5.2.Final
+    image: debezium/example-postgres:2.5.2.Final
     ports:
      - 5432:5432
     environment:
