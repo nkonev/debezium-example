@@ -22,3 +22,48 @@ insert into customers (first_name, last_name, email) values ('Nikita', 'Konev', 
 # Shut down the cluster
 docker-compose down
 ```
+
+Experimental Replication
+https://clickhouse.com/docs/en/integrations/postgresql#using-the-materializedpostgresql-database-engine
+```
+# PostgreSQL
+
+docker exec -i -t postgres psql -U postgres
+CREATE ROLE clickhouse_user SUPERUSER LOGIN PASSWORD 'ClickHouse_123';
+CREATE DATABASE db1;
+\connect db1
+CREATE TABLE table1 (
+    id         integer primary key,
+    column1    varchar(10)
+);
+
+INSERT INTO table1
+(id, column1)
+VALUES
+(1, 'abc'),
+(2, 'def');
+
+select * from pg_replication_slots;
+
+
+# Clickhouse
+docker exec -it clickhouse clickhouse client
+SET allow_experimental_database_materialized_postgresql=1;
+
+CREATE DATABASE db1_postgres
+ENGINE = MaterializedPostgreSQL('postgres:5432', 'db1', 'clickhouse_user', 'ClickHouse_123')
+SETTINGS materialized_postgresql_tables_list = 'table1';
+
+select * from db1_postgres.table1;
+
+
+# Then in PostgreSQL
+INSERT INTO table1
+(id, column1)
+VALUES                    
+(3, 'ghi'),
+(4, 'jkl');
+
+# Then in Clickhouse (after some time, ~2 sec)
+select * from db1_postgres.table1;
+```
