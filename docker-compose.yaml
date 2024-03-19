@@ -53,6 +53,21 @@ services:
      - CONFIG_STORAGE_TOPIC=my_connect_configs
      - OFFSET_STORAGE_TOPIC=my_connect_offsets
      - STATUS_STORAGE_TOPIC=my_connect_statuses
+  
+  create-postgres-connector:
+    container_name: create-postgres-connector
+    hostname: create-postgres-connector
+    restart: on-failure
+    build: ./create-postgres-connector
+    volumes:
+      - ./register-postgres.json:/opt/register-postgres.json:z
+    entrypoint: ['/usr/local/bin/bash', '-c']
+    command: |
+      "
+      wait-for-it.sh -t 180 kafka:29092 -- echo 'kafka is up'
+      wait-for-it.sh -t 180 connect:8083 -- echo 'connect is up'
+      curl -i -X POST -H 'Accept:application/json' -H  'Content-Type:application/json' http://connect:8083/connectors/ -d @/opt/register-postgres.json
+      "
 # For testing newer connector versions, unpack the connector archive into this
 # directory and uncomment the lines below
 #    volumes:
