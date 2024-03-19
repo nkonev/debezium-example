@@ -8,6 +8,8 @@ services:
     hostname: kafka
     ports:
       - "9092:9092"
+    volumes:
+      - kafka_data:/var/lib/kafka:z
     environment:
       KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: 'CONTROLLER:PLAINTEXT,INTERNAL:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT'
       KAFKA_ADVERTISED_LISTENERS: 'INTERNAL://kafka:29092,PLAINTEXT_HOST://127.0.0.1:9092'
@@ -33,6 +35,8 @@ services:
     image: debezium/example-postgres:2.5.2.Final
     ports:
      - 5432:5432
+    volumes:
+     - postgres_data:/var/lib/postgresql/data:z
     environment:
      - POSTGRES_USER=postgres
      - POSTGRES_PASSWORD=postgres
@@ -68,8 +72,27 @@ services:
       wait-for-it.sh -t 180 connect:8083 -- echo 'connect is up'
       curl -i -X POST -H 'Accept:application/json' -H  'Content-Type:application/json' http://connect:8083/connectors/ -d @/opt/register-postgres.json
       "
+  clickhouse:
+    image: clickhouse/clickhouse-server:23.11.5.29-alpine
+    container_name: clickhouse
+    hostname: clickhouse
+    restart: unless-stopped
+    ports:
+      - "8123:8123"
+      - "9000:9000"
+    volumes:
+      - clickhouse_data:/var/lib/clickhouse:z
+      - ./docker/clickhouse/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d:z
+    ulimits:
+      nofile:
+        soft: 262144
+        hard: 262144
 # For testing newer connector versions, unpack the connector archive into this
 # directory and uncomment the lines below
 #    volumes:
 #     - ./debezium-connector-postgres:/kafka/connect/debezium-connector-postgres
 
+volumes:
+  postgres_data:
+  kafka_data:
+  clickhouse_data:
