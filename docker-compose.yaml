@@ -73,7 +73,7 @@ services:
       curl -i -X POST -H 'Accept:application/json' -H  'Content-Type:application/json' http://connect:8083/connectors/ -d @/opt/register-postgres.json
       "
   clickhouse:
-    image: clickhouse/clickhouse-server:23.11.5.29-alpine
+    image: clickhouse/clickhouse-server:24.2.2.71-alpine
     container_name: clickhouse
     hostname: clickhouse
     restart: unless-stopped
