@@ -1,20 +1,6 @@
 # https://github.com/debezium/debezium-examples/tree/main/tutorial#using-postgres
 version: '2'
 services:
-  #  zookeeper:
-  #    image: quay.io/debezium/zookeeper:2.1
-  #    ports:
-  #     - 2181:2181
-  #     - 2888:2888
-  #     - 3888:3888
-  #  kafka:
-  #    image: quay.io/debezium/kafka:2.1
-  #    ports:
-  #     - 9092:9092
-  #    links:
-  #     - zookeeper
-  #    environment:
-  #     - ZOOKEEPER_CONNECT=zookeeper:2181
   kafka:
     image: apache/kafka:3.7.0
     restart: unless-stopped
@@ -52,7 +38,7 @@ services:
      - POSTGRES_PASSWORD=postgres
 
   connect:
-    image: quay.io/debezium/connect:2.5.2.Final
+    image: debezium/connect:2.5.2.Final
     restart: unless-stopped
     container_name: connect
     hostname: connect
