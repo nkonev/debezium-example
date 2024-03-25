@@ -4,9 +4,6 @@ https://github.com/debezium/debezium-examples/tree/main/tutorial#using-postgres
 # Start the topology as defined in https://debezium.io/documentation/reference/stable/tutorial.html
 docker-compose up -d
 
-# Start Postgres connector
-curl -i -X POST -H "Accept:application/json" -H  "Content-Type:application/json" http://localhost:8083/connectors/ -d @register-postgres.json
-
 # Consume messages from a Debezium topic
 docker-compose exec kafka /opt/kafka/bin/kafka-console-consumer.sh \
     --bootstrap-server kafka:9092 \

@@ -58,19 +58,17 @@ services:
      - OFFSET_STORAGE_TOPIC=my_connect_offsets
      - STATUS_STORAGE_TOPIC=my_connect_statuses
   
-  create-postgres-connector:
-    container_name: create-postgres-connector
-    hostname: create-postgres-connector
+  create-debezium-connectors:
+    image: curlimages/curl:8.6.0
+    container_name: create-debezium-connectors
+    hostname: create-debezium-connectors
     restart: on-failure
-    build: ./create-postgres-connector
     volumes:
       - ./register-postgres.json:/opt/register-postgres.json:z
-    entrypoint: ['/usr/local/bin/bash', '-c']
+    entrypoint: ['/bin/sh', '-c']
     command: |
       "
-      wait-for-it.sh -t 180 kafka:29092 -- echo 'kafka is up'
-      wait-for-it.sh -t 180 connect:8083 -- echo 'connect is up'
-      curl -i -X POST -H 'Accept:application/json' -H  'Content-Type:application/json' http://connect:8083/connectors/ -d @/opt/register-postgres.json
+      curl -i --connect-timeout 5 --max-time 5 -X POST -H 'Accept:application/json' -H  'Content-Type:application/json' http://connect:8083/connectors/ -d @/opt/register-postgres.json
       "
   clickhouse:
     image: clickhouse/clickhouse-server:24.2.2.71-alpine
