@@ -6,7 +6,7 @@ https://github.com/debezium/debezium-examples/tree/main/tutorial#using-postgres
 docker-compose up -d --build
 
 # Consume messages from a Debezium topic
-docker-compose exec kafka /opt/kafka/bin/kafka-console-consumer.sh \
+docker exec -it kafka /opt/kafka/bin/kafka-console-consumer.sh \
     --bootstrap-server kafka:9092 \
     --from-beginning \
     --property print.key=true \
