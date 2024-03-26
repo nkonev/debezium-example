@@ -4,13 +4,13 @@
         "connector.class": "com.clickhouse.kafka.connect.ClickHouseSinkConnector",
         "tasks.max": "1",
         "topics": "dbserver1.inventory.customers",
-        "topic2TableMap": "dbserver1.inventory.customers=customers_mv",
+        "topic2TableMap": "dbserver1.inventory.customers=customers_changes",
         "ssl": "false",
 
         "hostname": "clickhouse",
         "port": "8123",
 
-        "key.converter": "org.apache.kafka.connect.json.JsonConverter",
+        "key.converter": "org.apache.kafka.connect.storage.StringConverter",
         "value.converter": "org.apache.kafka.connect.json.JsonConverter",
         "key.converter.schemas.enable": "false",
         "value.converter.schemas.enable": "false"

@@ -65,4 +65,5 @@ VALUES
 select * from db1_postgres.table1;
 
 insert into customers_mv(id, first_name, last_name, email) values (1, 'Nikita', 'Konev', 'nkonev@example.com');
+insert into customers_changes(`after.id`, `after.first_name`, `after.last_name`, `after.email`) values (1, 'Nikita', 'Konev', 'nkonev@example.com');
 ```

@@ -36,7 +36,8 @@ CREATE TABLE customers_changes
     `source.sequence` String,
     `source.lsn` UInt64
 )
-ENGINE = Null;
+ENGINE = MergeTree
+ORDER BY tuple();
 
 CREATE MATERIALIZED VIEW customers_mv TO customers
 (
