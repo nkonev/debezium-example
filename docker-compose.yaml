@@ -64,21 +64,21 @@ services:
     hostname: create-debezium-connectors
     restart: on-failure
     volumes:
-      - ./register-postgres.json:/opt/register-postgres.json:z
-      - ./register-clickhouse.json:/opt/register-clickhouse.json:z
+      - ./connector-postgres.json:/opt/connector-postgres.json:z
+      - ./connector-clickhouse.json:/opt/connector-clickhouse.json:z
     entrypoint: ['/bin/sh', '-c']
     command: |
       "
       set -e
       echo 'creating postgres connector'
-      http_code=$$(curl -Ss -o /dev/null -w '%{http_code}' --connect-timeout 5 --max-time 5 -X POST -H 'Accept:application/json' -H 'Content-Type:application/json' --url 'http://connect:8083/connectors/' -d @/opt/register-postgres.json)
+      http_code=$$(curl -Ss -o /dev/null -w '%{http_code}' --connect-timeout 5 --max-time 5 -X POST -H 'Accept:application/json' -H 'Content-Type:application/json' --url 'http://connect:8083/connectors/' -d @/opt/connector-postgres.json)
       if [ \"$$http_code\" != \"201\" -a \"$$http_code\" != \"409\" ]; then
         echo \"exit because of wrong code during creating postgres connector: $$http_code\";
         exit 1;
       fi
       
       echo 'creating clickhouse connector'
-      http_code=$$(curl -Ss -o /dev/null -w '%{http_code}' --connect-timeout 5 --max-time 5 -X POST -H 'Accept:application/json' -H 'Content-Type:application/json' --url 'http://connect:8083/connectors/' -d @/opt/register-clickhouse.json)
+      http_code=$$(curl -Ss -o /dev/null -w '%{http_code}' --connect-timeout 5 --max-time 5 -X POST -H 'Accept:application/json' -H 'Content-Type:application/json' --url 'http://connect:8083/connectors/' -d @/opt/connector-clickhouse.json)
       if [ \"$$http_code\" != \"201\" -a \"$$http_code\" != \"409\" ]; then
         echo \"exit because of wrong code during creating clickhouse connector: $$http_code\";
         exit 1;
