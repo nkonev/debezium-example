@@ -43,7 +43,7 @@ services:
 
   # https://hub.docker.com/r/debezium/connect
   connect:
-    image: debezium/connect:2.5.2.Final
+    build: ./docker/connect
     restart: unless-stopped
     container_name: connect
     hostname: connect
@@ -65,10 +65,12 @@ services:
     restart: on-failure
     volumes:
       - ./register-postgres.json:/opt/register-postgres.json:z
+      - ./register-clickhouse.json:/opt/register-clickhouse.json:z
     entrypoint: ['/bin/sh', '-c']
     command: |
       "
       curl -i --connect-timeout 5 --max-time 5 -X POST -H 'Accept:application/json' -H 'Content-Type:application/json' --url 'http://connect:8083/connectors/' -d @/opt/register-postgres.json
+      curl -i --connect-timeout 5 --max-time 5 -X POST -H 'Accept:application/json' -H 'Content-Type:application/json' --url 'http://connect:8083/connectors/' -d @/opt/register-clickhouse.json
       "
   clickhouse:
     image: clickhouse/clickhouse-server:24.2.2.71-alpine

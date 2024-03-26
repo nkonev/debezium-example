@@ -7,3 +7,11 @@ CREATE TABLE first_test_table
 )
 ENGINE = ReplacingMergeTree(version, deleted)
 ORDER BY key;
+
+CREATE TABLE customers(
+    id Int32 NOT NULL,
+    first_name String NOT NULL,
+    last_name String NOT NULL,
+    email String NOT NULL,
+    PRIMARY KEY(id)
+) ENGINE = MergeTree;
