@@ -1,14 +1,3 @@
-CREATE TABLE first_test_table
-(
-	`key` String,
-	`price` UInt64,
-	`version` UInt64,
-	`deleted` UInt8
-)
-ENGINE = ReplacingMergeTree(version, deleted)
-ORDER BY key;
-
-
 -- https://clickhouse.com/blog/clickhouse-postgresql-change-data-capture-cdc-part-2#configuring-debezium
 CREATE TABLE customers(
     id Int32 NOT NULL,
