@@ -69,8 +69,11 @@ services:
     entrypoint: ['/bin/sh', '-c']
     command: |
       "
-      curl -i --connect-timeout 5 --max-time 5 -X POST -H 'Accept:application/json' -H 'Content-Type:application/json' --url 'http://connect:8083/connectors/' -d @/opt/register-postgres.json
-      curl -i --connect-timeout 5 --max-time 5 -X POST -H 'Accept:application/json' -H 'Content-Type:application/json' --url 'http://connect:8083/connectors/' -d @/opt/register-clickhouse.json
+      set -e
+      echo 'creating postgres connector'
+      curl -i --fail --connect-timeout 5 --max-time 5 -X POST -H 'Accept:application/json' -H 'Content-Type:application/json' --url 'http://connect:8083/connectors/' -d @/opt/register-postgres.json
+      echo 'creating clickhouse connector'
+      curl -i --fail --connect-timeout 5 --max-time 5 -X POST -H 'Accept:application/json' -H 'Content-Type:application/json' --url 'http://connect:8083/connectors/' -d @/opt/register-clickhouse.json
       "
   clickhouse:
     image: clickhouse/clickhouse-server:24.2.2.71-alpine
