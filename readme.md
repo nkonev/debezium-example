@@ -1,5 +1,6 @@
 https://github.com/debezium/debezium-examples/tree/main/tutorial#using-postgres
 
+# Replication via Kafka Connect
 ```bash
 # Start the topology as defined in https://debezium.io/documentation/reference/stable/tutorial.html
 docker-compose up -d
@@ -16,11 +17,16 @@ docker-compose exec postgres env PGOPTIONS="--search_path=inventory" bash -c 'ps
 
 insert into customers (first_name, last_name, email) values ('Nikita', 'Konev', 'nkonev@example.com');
 
+-- for tests
+insert into customers_mv(id, first_name, last_name, email) values (1, 'Nikita', 'Konev', 'nkonev@example.com');
+insert into customers_changes(`after.id`, `after.first_name`, `after.last_name`, `after.email`) values (1, 'Nikita', 'Konev', 'nkonev@example.com');
+
 # Shut down the cluster
 docker-compose down
 ```
 
-Experimental Replication
+
+# Experimental Replication w/o Kafka & Debezium
 https://clickhouse.com/docs/en/integrations/postgresql#using-the-materializedpostgresql-database-engine
 ```
 # PostgreSQL
@@ -63,7 +69,4 @@ VALUES
 
 # Then in Clickhouse (after some time, ~2 sec)
 select * from db1_postgres.table1;
-
-insert into customers_mv(id, first_name, last_name, email) values (1, 'Nikita', 'Konev', 'nkonev@example.com');
-insert into customers_changes(`after.id`, `after.first_name`, `after.last_name`, `after.email`) values (1, 'Nikita', 'Konev', 'nkonev@example.com');
 ```
