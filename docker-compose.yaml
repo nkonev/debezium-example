@@ -99,10 +99,6 @@ services:
       nofile:
         soft: 262144
         hard: 262144
-# For testing newer connector versions, unpack the connector archive into this
-# directory and uncomment the lines below
-#    volumes:
-#     - ./debezium-connector-postgres:/kafka/connect/debezium-connector-postgres
 
 volumes:
   postgres_data:
