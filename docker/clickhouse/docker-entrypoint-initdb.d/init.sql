@@ -1,11 +1,17 @@
 -- https://clickhouse.com/blog/clickhouse-postgresql-change-data-capture-cdc-part-2#configuring-debezium
+-- https://clickhouse.com/docs/en/engines/table-engines/mergetree-family/replacingmergetree
+-- The engine differs from MergeTree in that it removes duplicate entries with the same sorting key value (ORDER BY table section, not PRIMARY KEY).
 CREATE TABLE customers(
     id Int32 NOT NULL,
     first_name String NOT NULL,
     last_name String NOT NULL,
     email String NOT NULL,
-    PRIMARY KEY(id)
-) ENGINE = MergeTree;
+    `version` UInt64,
+    `deleted` UInt8
+)
+ENGINE = ReplacingMergeTree(version, deleted)
+ORDER BY (id, first_name, last_name, email)
+PRIMARY KEY(id);
 
 -- mapping from kafka topic's values onto clickhouse table
 CREATE TABLE customers_changes
@@ -35,7 +41,9 @@ CREATE MATERIALIZED VIEW customers_mv TO customers
    `id` Int32 not null,
    `first_name` String not null,
    `last_name` String not null,
-   `email` String not null
+   `email` String not null,
+   `version` UInt64,
+   `deleted` UInt8
 ) AS
 SELECT
     if(op = 'd', before.id, after.id) AS id,
