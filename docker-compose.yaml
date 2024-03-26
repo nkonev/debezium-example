@@ -32,10 +32,11 @@ services:
     restart: unless-stopped
     container_name: postgres
     hostname: postgres
-    image: debezium/example-postgres:2.5.2.Final
+    image: quay.io/debezium/postgres:16
     ports:
      - 5432:5432
     volumes:
+     - ./docker/postgres/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d:z
      - postgres_data:/var/lib/postgresql/data:z
     environment:
      - POSTGRES_USER=postgres
