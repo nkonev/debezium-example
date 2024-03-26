@@ -13,7 +13,7 @@ docker exec -it kafka /opt/kafka/bin/kafka-console-consumer.sh \
     --topic dbserver1.inventory.customers
 
 # Modify records in the database via Postgres client
-docker exec -it postgres env PGOPTIONS="--search_path=inventory" bash -c 'psql -U postgres postgres'
+docker exec -it -e PGOPTIONS="--search_path=inventory" postgres  psql -U postgres postgres
 insert into customers (first_name, last_name, email) values ('Nikita', 'Konev', 'nkonev@example.com');
 
 # see in Clickhouse
