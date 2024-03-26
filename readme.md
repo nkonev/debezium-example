@@ -3,7 +3,7 @@ https://github.com/debezium/debezium-examples/tree/main/tutorial#using-postgres
 # Replication via Kafka Connect
 ```bash
 # Start the topology as defined in https://debezium.io/documentation/reference/stable/tutorial.html
-docker-compose up -d
+docker-compose up -d --build
 
 # Consume messages from a Debezium topic
 docker-compose exec kafka /opt/kafka/bin/kafka-console-consumer.sh \
