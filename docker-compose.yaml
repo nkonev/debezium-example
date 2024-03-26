@@ -41,6 +41,7 @@ services:
      - POSTGRES_USER=postgres
      - POSTGRES_PASSWORD=postgres
 
+  # https://hub.docker.com/r/debezium/connect
   connect:
     image: debezium/connect:2.5.2.Final
     restart: unless-stopped
@@ -57,7 +58,6 @@ services:
      - CONFIG_STORAGE_TOPIC=my_connect_configs
      - OFFSET_STORAGE_TOPIC=my_connect_offsets
      - STATUS_STORAGE_TOPIC=my_connect_statuses
-  
   create-debezium-connectors:
     image: curlimages/curl:8.6.0
     container_name: create-debezium-connectors
