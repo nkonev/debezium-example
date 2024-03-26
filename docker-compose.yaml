@@ -85,7 +85,7 @@ services:
       fi
       "
   clickhouse:
-    image: clickhouse/clickhouse-server:24.2.2.71-alpine
+    image: clickhouse/clickhouse-server:23.11.5.29-alpine
     container_name: clickhouse
     hostname: clickhouse
     restart: unless-stopped

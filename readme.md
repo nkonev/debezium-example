@@ -63,4 +63,6 @@ VALUES
 
 # Then in Clickhouse (after some time, ~2 sec)
 select * from db1_postgres.table1;
+
+insert into customers_mv(id, first_name, last_name, email) values (1, 'Nikita', 'Konev', 'nkonev@example.com');
 ```
