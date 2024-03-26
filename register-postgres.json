@@ -13,10 +13,7 @@
         "key.converter": "org.apache.kafka.connect.json.JsonConverter",
         "value.converter": "org.apache.kafka.connect.json.JsonConverter",
         "key.converter.schemas.enable": "false",
-        "value.converter.schemas.enable": "false",
-        "transforms": "flatten",
-        "transforms.flatten.type": "org.apache.kafka.connect.transforms.Flatten$Value",
-        "transforms.flatten.delimiter": "."
+        "value.converter.schemas.enable": "false"
     }
 }
 
