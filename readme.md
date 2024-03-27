@@ -15,6 +15,7 @@ docker exec -it kafka /opt/kafka/bin/kafka-console-consumer.sh \
 # Modify records in the database via Postgres client
 docker exec -it -e PGOPTIONS="--search_path=inventory" postgres  psql -U postgres postgres
 insert into customers (first_name, last_name, email) values ('Nikita', 'Konev', 'nkonev@example.com');
+update customers set first_name = 'Nikita 2' where id = 1005;
 delete from customers where id = 1005;
 
 then in Clickhouse

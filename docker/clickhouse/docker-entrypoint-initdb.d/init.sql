@@ -10,8 +10,8 @@ CREATE TABLE customers(
     `deleted` UInt8
 )
 ENGINE = ReplacingMergeTree(version, deleted)
-ORDER BY (id, first_name, last_name, email)
-PRIMARY KEY(id);
+PRIMARY KEY(id)
+;
 
 -- mapping from kafka topic's values onto clickhouse table
 CREATE TABLE customers_changes
