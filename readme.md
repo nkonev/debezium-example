@@ -18,8 +18,10 @@ insert into customers (first_name, last_name, email) values ('Nikita', 'Konev', 
 update customers set first_name = 'Nikita 2' where id = 1005;
 delete from customers where id = 1005;
 
-then in Clickhouse
+# then in Clickhouse
 optimize table customers final cleanup;
+# or
+select * from customers final;
 
 # see in Clickhouse
 docker exec -it clickhouse clickhouse client
