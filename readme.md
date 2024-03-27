@@ -79,3 +79,8 @@ VALUES
 # Then in Clickhouse (after some time, ~2 sec)
 select * from db1_postgres.table1;
 ```
+
+# Links
+* https://clickhouse.com/blog/clickhouse-postgresql-change-data-capture-cdc-part-1
+* https://clickhouse.com/blog/clickhouse-postgresql-change-data-capture-cdc-part-2
+* https://clickhouse.com/docs/en/engines/table-engines/mergetree-family/replacingmergetree
