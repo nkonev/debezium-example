@@ -22,6 +22,10 @@ delete from customers where id = 1005;
 optimize table customers final cleanup;
 # or
 select * from customers final;
+# or
+select * from customers limit 1 by id;
+# or - remove duplicates and hide deleted
+select * from customers prewhere deleted = 0 limit 1 by id;
 
 # see in Clickhouse
 docker exec -it clickhouse clickhouse client
@@ -86,3 +90,4 @@ select * from db1_postgres.table1;
 * https://clickhouse.com/blog/clickhouse-postgresql-change-data-capture-cdc-part-1
 * https://clickhouse.com/blog/clickhouse-postgresql-change-data-capture-cdc-part-2
 * https://clickhouse.com/docs/en/engines/table-engines/mergetree-family/replacingmergetree
+* https://clickhouse.com/blog/handling-updates-and-deletes-in-clickhouse
