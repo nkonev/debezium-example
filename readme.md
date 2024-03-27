@@ -25,9 +25,10 @@ select * from customers final;
 # or
 select * from customers limit 1 by id;
 # or - remove duplicates and hide deleted wiv limit by
-select * from customers prewhere deleted = 0 limit 1 by id;
+select * from customers prewhere deleted = 0 order by version desc limit 1 by id;
+# show updated - filter out old versions
 # https://clickhouse.com/docs/en/sql-reference/statements/select/limit-by
-select * from customers prewhere deleted = 0 limit 1 by id limit 2;
+select * from customers prewhere deleted = 0 order by version desc limit 1 by id limit 2;
 
 # see in Clickhouse
 docker exec -it clickhouse clickhouse client
