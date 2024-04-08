@@ -24,15 +24,15 @@ services:
       KAFKA_INTER_BROKER_LISTENER_NAME: 'INTERNAL'
       KAFKA_CONTROLLER_LISTENER_NAMES: 'CONTROLLER'
       KAFKA_LOG_DIRS: "/var/lib/kafka/data"
-      # Replace CLUSTER_ID with a unique base64 UUID using "bin/kafka-storage.sh random-uuid" 
+      # Replace CLUSTER_ID with a unique base64 UUID using "bin/kafka-storage.sh random-uuid"
       # See https://docs.confluent.io/kafka/operations-tools/kafka-tools.html#kafka-storage-sh
       CLUSTER_ID: 'MkU3OEVBNTcwNTJENDM2Qk'
-        
+
   postgres:
     restart: unless-stopped
     container_name: postgres
     hostname: postgres
-    image: quay.io/debezium/postgres:16
+    image: postgres:16
     ports:
      - 5432:5432
     volumes:
@@ -41,6 +41,7 @@ services:
     environment:
      - POSTGRES_USER=postgres
      - POSTGRES_PASSWORD=postgres
+    command: ["postgres", "-c", "log_statement=all", "-c", "wal_level=logical"]
 
   # https://hub.docker.com/r/debezium/connect
   connect:

@@ -94,3 +94,4 @@ select * from db1_postgres.table1;
 * https://clickhouse.com/blog/clickhouse-postgresql-change-data-capture-cdc-part-2
 * https://clickhouse.com/docs/en/engines/table-engines/mergetree-family/replacingmergetree
 * https://clickhouse.com/blog/handling-updates-and-deletes-in-clickhouse
+* https://itnext.io/using-postgresql-pgoutput-plugin-for-change-data-capture-with-debezium-on-azure-845d3bb2787a
