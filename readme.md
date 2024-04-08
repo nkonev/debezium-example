@@ -18,7 +18,10 @@ insert into customers (first_name, last_name, email) values ('Nikita', 'Konev', 
 update customers set first_name = 'Nikita 2' where id = 1005;
 delete from customers where id = 1005;
 
-# then in Clickhouse
+# see in Clickhouse
+docker exec -it clickhouse clickhouse client
+select * from customers;
+
 optimize table customers final cleanup;
 # or
 select * from customers final;
@@ -29,10 +32,6 @@ select * from customers prewhere deleted = 0 order by version desc limit 1 by id
 # show updated - filter out old versions
 # https://clickhouse.com/docs/en/sql-reference/statements/select/limit-by
 select * from customers prewhere deleted = 0 order by version desc limit 1 by id limit 2;
-
-# see in Clickhouse
-docker exec -it clickhouse clickhouse client
-select * from customers;
 
 
 -- for tests
@@ -95,3 +94,4 @@ select * from db1_postgres.table1;
 * https://clickhouse.com/docs/en/engines/table-engines/mergetree-family/replacingmergetree
 * https://clickhouse.com/blog/handling-updates-and-deletes-in-clickhouse
 * https://itnext.io/using-postgresql-pgoutput-plugin-for-change-data-capture-with-debezium-on-azure-845d3bb2787a
+* https://github.com/abhirockzz/debezium-postgres-pgoutput
